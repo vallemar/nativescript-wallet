@@ -24,7 +24,7 @@ function loadedItemList(args: any, index: number) {
 
 <template>
   <Page actionBarHidden="true" class="bg-white rounded-t-3xl">
-    <GridLayout rows="auto, *" class="pt-2" :style="{ 'background': card.bg.replaceAll(',1)', ',0.2)') }">
+    <GridLayout rows="auto, *" class="pt-2" :style="{ background: card.bg.split(',1)').join(',0.2)') }">
       <StackLayout class="px-2">
         <FlexboxLayout :style="{ 'background': card.bg, 'height': 200 }"
           class="flex-col p-3 justify-between rounded-lg mt-2">
