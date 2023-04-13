@@ -126,7 +126,7 @@ function openOrGoToDetails(index: number) {
           <StackLayout class="mt-2 h-full">
             <FlexboxLayout v-for="(card, index) in dataCards" :key="index" :sharedTransitionTag="'card_' + index"
               :style="{ 'background': card.bg, 'height': heightCard }" @loaded="loadedCard($event, index)"
-              @tap="openOrGoToDetails(index)" class="flex-col p-3 justify-between  mt-2" ios:boxShadow="0 0 2 2 rgba(0,0,0,.5)" style="border-radius: 16">
+              @tap="openOrGoToDetails(index)" class="flex-col p-3 justify-between  mt-2" style="border-radius: 16">
               <FlexboxLayout class="justify-between">
                 <Label text="Credit" class="text-xl font-bold text-white"></Label>
                 <Image :src="card.imgType" height="45"></Image>
