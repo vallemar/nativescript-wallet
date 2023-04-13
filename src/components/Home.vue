@@ -22,8 +22,7 @@ function loadedCard(args: any, index: number) {
   const card: View = args.object;
   if (!isOpen.value) {
     viewCards.push(card)
-    
-     card.translateY = -(heightCard - transaleY) * index;
+    card.translateY = -(heightCard - transaleY) * index;
   }
 }
 
@@ -36,59 +35,53 @@ function toggleStatus() {
     changeOpacity(showBtn, 0, { rotate: 90 });
     changeOpacity(addBtn, 1, { translate: { y: 0, x: 0 } });
   } else {
-    viewCards.forEach((cardView, index) => open(cardView, index));
+    viewCards.forEach((cardView, index) => open(cardView));
     changeOpacity(showBtn, 1, { rotate: 0 });
     changeOpacity(addBtn, 0, { translate: { y: 100, x: 0 } });
   }
   isOpen.value = !isOpen.value;
 }
 
-function close(cardView: View, index: number) {
-  /* cardView.animate({
-    translate: { x: 0, y: -(heightCard - 50) * index },
-    curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1),
-    duration: 250
-  }); */
+function open(cardView: View) {
   if (isAndroid) {
-    const springAnim = new androidx.dynamicanimation.animation.SpringAnimation(
-      cardView.android,
-      androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_Y,
-      Utils.layout.toDevicePixels(-(heightCard - transaleY) * index)
-    );
-
-    springAnim.getSpring().setStiffness(200)
-    springAnim.getSpring().setDampingRatio(0.6);
-    springAnim.start();
+    animateAndroid(cardView, 0);
   } else {
-    Utils.ios.animateWithSpring({
-      animations: () => {
-        (<UIView>cardView.ios).transform = CGAffineTransformMakeTranslation(0.0, -(heightCard - transaleY) * index)
-      }
-    });
+    animateIOS(cardView, 0);
   }
 }
 
-function open(cardView: View, index: number) {
-  /* cardView.animate({
-    translate: { x: 0, y: 0 },
-    curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1),
-    duration: 250
-  }); */
-
+function close(cardView: View, index: number) {
   if (isAndroid) {
+    animateAndroid(cardView, -(heightCard - transaleY) * index);
+  } else {
+    animateIOS(cardView, -(heightCard - transaleY) * index);
+  }
+}
+
+function animateAndroid(view: View, position: number) {
+  if ((global as any).isAppRunInPreview) {
+    view.animate({
+      translate: { x: 0, y: position },
+      curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1),
+      duration: 250
+    });
+  } else {
     const springAnim = new androidx.dynamicanimation.animation.SpringAnimation(
-      cardView.android, androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_Y, 0
+      view.android, androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_Y,
+      Utils.layout.toDevicePixels(position)
     );
     springAnim.getSpring().setStiffness(200)
     springAnim.getSpring().setDampingRatio(0.6);
     springAnim.start();
-  } else {
-    Utils.ios.animateWithSpring({
-      animations: () => {
-        (<UIView>cardView.ios).transform = CGAffineTransformMakeTranslation(0.0, 0)
-      }
-    });
   }
+}
+
+function animateIOS(view: View, position: number) {
+  Utils.ios.animateWithSpring({
+    animations: () => {
+      (<UIView>view.ios).transform = CGAffineTransformMakeTranslation(0.0, position)
+    }
+  });
 }
 
 function changeOpacity(view: View, opacity: number, animateOptions?: any) {
@@ -133,7 +126,7 @@ function openOrGoToDetails(index: number) {
           <StackLayout class="mt-2 h-full">
             <FlexboxLayout v-for="(card, index) in dataCards" :key="index" :sharedTransitionTag="'card_' + index"
               :style="{ 'background': card.bg, 'height': heightCard }" @loaded="loadedCard($event, index)"
-              @tap="openOrGoToDetails(index)" class="flex-col p-3 justify-between rounded-lg mt-2">
+              @tap="openOrGoToDetails(index)" class="flex-col p-3 justify-between  mt-2" ios:boxShadow="0 0 2 2 rgba(0,0,0,.5)" style="border-radius: 16">
               <FlexboxLayout class="justify-between">
                 <Label text="Credit" class="text-xl font-bold text-white"></Label>
                 <Image :src="card.imgType" height="45"></Image>
