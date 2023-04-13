@@ -6,7 +6,7 @@ import {
   toRaw,
 } from "nativescript-vue";
 import { dataCards } from "@/data"
-import { CoreTypes, isAndroid, PageTransition, SharedTransition, View, ModalTransition } from "@nativescript/core";
+import { CoreTypes, isAndroid, PageTransition, SharedTransition, View, ModalTransition, Utils } from "@nativescript/core";
 import { configHomeSharedTransition } from "~/animation";
 import Details from "./Details.vue";
 
@@ -21,7 +21,8 @@ function loadedCard(args: any, index: number) {
   const card: View = args.object;
   if (!isOpen.value) {
     viewCards.push(card)
-    card.translateY = -(heightCard - 50) * index;
+    close(card, index)
+   // card.translateY = -(heightCard - 50) * index;
   }
 }
 
@@ -34,7 +35,7 @@ function toggleStatus() {
     changeOpacity(showBtn, 0, { rotate: 90 });
     changeOpacity(addBtn, 1, { translate: { y: 0, x: 0 } });
   } else {
-    viewCards.forEach((cardView) => open(cardView));
+    viewCards.forEach((cardView, index) => open(cardView, index));
     changeOpacity(showBtn, 1, { rotate: 0 });
     changeOpacity(addBtn, 0, { translate: { y: 100, x: 0 } });
   }
@@ -47,14 +48,27 @@ function close(cardView: View, index: number) {
     curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1),
     duration: 250
   });
+  /* Utils.ios.animateWithSpring({
+    animations: () => {
+      const frame = (<UIView>cardView.ios).frame;
+      (<UIView>cardView.ios).frame = CGRectMake(0, -(heightCard - 100) * index, frame.size.width, frame.size.height)
+    }
+  }); */
 }
 
-function open(cardView: View) {
+function open(cardView: View, index: number) {
   cardView.animate({
     translate: { x: 0, y: 0 },
     curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1),
     duration: 250
   });
+
+  /* Utils.ios.animateWithSpring({
+    animations: () => {
+      const frame = (<UIView>cardView.ios).frame;
+      (<UIView>cardView.ios).frame = CGRectMake(0, 0, frame.size.width, frame.size.height)
+    }
+  }); */
 }
 
 function changeOpacity(view: View, opacity: number, animateOptions?: any) {
