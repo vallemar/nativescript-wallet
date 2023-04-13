@@ -31,34 +31,35 @@ function toggleStatus() {
 
   if (isOpen.value) {
     viewCards.forEach((cardView, index) => index == 0 || close(cardView, index));
-    changeOpacity(showBtn, 0);
-    changeOpacity(addBtn, 1);
+    changeOpacity(showBtn, 0, { rotate: 90 });
+    changeOpacity(addBtn, 1, { translate: { y: 0, x: 0 } });
   } else {
     viewCards.forEach((cardView) => open(cardView));
-    changeOpacity(showBtn, 1);
-    changeOpacity(addBtn, 0);
+    changeOpacity(showBtn, 1, { rotate: 0 });
+    changeOpacity(addBtn, 0, { translate: { y: 100, x: 0 } });
   }
   isOpen.value = !isOpen.value;
 }
 
 function close(cardView: View, index: number) {
-  cardView.animate({ 
-    translate: { x: 0, y: -(heightCard - 50) * index }, 
-    curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1), 
-    duration: 250 
+  cardView.animate({
+    translate: { x: 0, y: -(heightCard - 50) * index },
+    curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1),
+    duration: 250
   });
 }
 
 function open(cardView: View) {
-  cardView.animate({ 
-    translate: { x: 0, y: 0 }, 
-    curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1), 
-    duration: 250 
+  cardView.animate({
+    translate: { x: 0, y: 0 },
+    curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1),
+    duration: 250
   });
 }
 
-function changeOpacity(view: View, opacity: number) {
+function changeOpacity(view: View, opacity: number, animateOptions?: any) {
   view.animate({
+    ...animateOptions,
     opacity: opacity,
     duration: 250
   })
@@ -91,7 +92,7 @@ function openOrGoToDetails(index: number) {
         <StackLayout class="p-2" verticalAlignment="top">
           <GridLayout height="50">
             <Label text="Wallet" class="text-2xl font-bold text-black" horizontalAlignment="center"></Label>
-            <Label ref="refShowBtn" text="close" style="font-size: 24;" height="45" width="45"
+            <Label ref="refShowBtn" text="close" style="font-size: 24;" height="45" width="45" rotate="90"
               class="m-icon-round bg-[#0666eb] rounded-full text-white text-center opacity-0" horizontalAlignment="right"
               @tap="toggleStatus"></Label>
           </GridLayout>
