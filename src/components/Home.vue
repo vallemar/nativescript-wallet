@@ -8,6 +8,7 @@ import {
 import { dataCards } from "@/data"
 import { CoreTypes, isAndroid, PageTransition, SharedTransition, View, ModalTransition, Utils } from "@nativescript/core";
 import { configHomeSharedTransition } from "~/animation";
+import Card from "./Card.vue";
 import Details from "./Details.vue";
 
 const isOpen = ref(false);
@@ -124,20 +125,9 @@ function openOrGoToDetails(index: number) {
               @tap="toggleStatus"></Label>
           </GridLayout>
           <FlexboxLayout class="mt-2 h-full flex-col">
-            <GridLayout :style="{ 'height': heightCard }" class="p-2" v-for="(card, index) in dataCards" :key="index"
+            <Card v-for="(card, index) in dataCards" :key="index" :style="{ 'height': heightCard }" :data="card"
               @loaded="loadedCard($event, index)" @tap="openOrGoToDetails(index)">
-              <ContentView width="100%" class="rounded-lg h-full" ios:boxShadow="0 0 3 3 rgba(0,0,0,.42)"></ContentView>
-              <FlexboxLayout :style="{ 'background': card.bg }" class="flex-col p-3 justify-between rounded-lg h-full">
-                <FlexboxLayout class="justify-between">
-                  <Label text="Credit" class="text-xl font-bold text-white"></Label>
-                  <Image :src="card.imgType" height="45"></Image>
-                </FlexboxLayout>
-                <FlexboxLayout class="flex-col">
-                  <Label text="Hewad" class="text-xl text-white"></Label>
-                  <Label text="**** **** 2222" class="text-xl text-white"></Label>
-                </FlexboxLayout>
-              </FlexboxLayout>
-            </GridLayout>
+            </Card>
           </FlexboxLayout>
         </StackLayout>
         <FlexboxLayout ref="refAddBtn" verticalAlignment="bottom" class=" justify-center">
