@@ -18,4 +18,10 @@ export interface ListItem<T = any> {
     index: number;
     even: boolean;
     odd: boolean;
-  }
+}
+
+export type AnimateOptions = {
+    translate?: { x?: number, y?: number },
+    rotation?: number,
+    alpha?: number
+}

@@ -6,8 +6,8 @@ import {
   toRaw,
 } from "nativescript-vue";
 import { dataCards } from "@/data"
-import { CoreTypes, isAndroid, PageTransition, SharedTransition, View, ModalTransition, Utils, Screen } from "@nativescript/core";
-import { configHomeSharedTransition } from "~/animation";
+import { isAndroid, PageTransition, SharedTransition, View, ModalTransition, Screen } from "@nativescript/core";
+import { animateView, configHomeSharedTransition } from "~/animation";
 import Card from "./Card.vue";
 import Details from "./Details.vue";
 
@@ -35,76 +35,24 @@ function toggleStatus() {
 
   if (isOpen.value) {
     viewCards.forEach((cardView, index) => index == 0 || close(cardView, index));
-    changeOpacity(showBtn, 0, { rotate: 90 });
-    changeOpacity(addBtn, 1, { translate: { y: 0, x: 0 } });
-    if (isAndroid) {
-      animateAndroid(textHeader, { x: 0, y: 0, direction: androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_X });
-    } else {
-      animateIOS(textHeader, { x: 0, y: 0 })
-    }
+    animateView(addBtn, { translate: { y: 0, x: 0 }, alpha: 1 });
+    animateView(showBtn, { rotation: 90, alpha: 0 });
+    animateView(textHeader, { translate: { x: 0, y: 0 } })
   } else {
-    viewCards.forEach((cardView, index) => open(cardView));
-    changeOpacity(showBtn, 1, { rotate: 0 });
-    changeOpacity(addBtn, 0, { translate: { y: 100, x: 0 } });
-    if (isAndroid) {
-      animateAndroid(textHeader, { x: -(Screen.mainScreen.widthDIPs / 2) + (textHeader.getActualSize().width / 2) + 10, y: 0, direction: androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_X });
-    } else {
-      animateIOS(textHeader, { x: -(Screen.mainScreen.widthDIPs / 2) + (textHeader.getActualSize().width / 2) + 10, y: 0 })
-    }
+    viewCards.forEach((cardView) => open(cardView));
+    animateView(addBtn, { translate: { y: 50, x: 0 }, alpha: 0 });
+    animateView(showBtn, { rotation: 0, alpha: 1 });
+    animateView(textHeader, { translate: { x: -(Screen.mainScreen.widthDIPs / 2) + (textHeader.getActualSize().width / 2) + 10, y: 0 } });
   }
   isOpen.value = !isOpen.value;
 }
 
 function open(cardView: View) {
-  if (isAndroid) {
-    animateAndroid(cardView, { x: 0, y: 0, direction: androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_Y });
-  } else {
-    animateIOS(cardView, { x: 0, y: 0 });
-  }
+  animateView(cardView, { translate: { x: 0, y: 0 } });
 }
 
 function close(cardView: View, index: number) {
-  if (isAndroid) {
-    animateAndroid(cardView, { x: 0, y: -(heightCard - transaleY) * index, direction: androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_Y });
-  } else {
-    animateIOS(cardView, { x: 0, y: -(heightCard - transaleY) * index });
-  }
-}
-
-function animateAndroid(view: View, position: { x: number, y: number, direction: androidx.dynamicanimation.animation.DynamicAnimation.ViewProperty }) {
-  if ((global as any).isAppRunInPreview) {
-    view.animate({
-      translate: { x: position.x, y: position.y },
-      curve: CoreTypes.AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1),
-      duration: 250
-    });
-  } else {
-    const springAnim = new androidx.dynamicanimation.animation.SpringAnimation(
-      view.android, position.direction,
-      Utils.layout.toDevicePixels(
-        position.direction === androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_Y ? position.y : position.x
-      )
-    );
-    springAnim.getSpring().setStiffness(150);
-    springAnim.getSpring().setDampingRatio(0.6);
-    springAnim.start();
-  }
-}
-
-function animateIOS(view: View, position: { x: number, y: number }) {
-  Utils.ios.animateWithSpring({
-    animations: () => {
-      (<UIView>view.ios).transform = CGAffineTransformMakeTranslation(position.x, position.y)
-    }
-  });
-}
-
-function changeOpacity(view: View, opacity: number, animateOptions?: any) {
-  view.animate({
-    ...animateOptions,
-    opacity: opacity,
-    duration: 250
-  })
+  animateView(cardView, { translate: { x: 0, y: -(heightCard - transaleY) * index } })
 }
 
 function openOrGoToDetails(index: number) {
