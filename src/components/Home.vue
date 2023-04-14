@@ -5,7 +5,7 @@ import {
   $showModal,
   toRaw,
 } from "nativescript-vue";
-import { dataCards } from "@/data"
+import { HEIGH_CARD, dataCards } from "@/data"
 import { isAndroid, PageTransition, SharedTransition, View, ModalTransition, Screen } from "@nativescript/core";
 import { animateView, configHomeSharedTransition } from "~/animation";
 import Card from "./Card.vue";
@@ -16,7 +16,6 @@ const refShowBtn = ref();
 const refAddBtn = ref();
 const refTextHeader = ref();
 
-const heightCard = 200;
 const transaleY = 70;
 const viewCards: View[] = []
 
@@ -24,7 +23,7 @@ function loadedCard(args: any, index: number) {
   const card: View = args.object;
   if (!isOpen.value) {
     viewCards.push(card)
-    card.translateY = -(heightCard - transaleY) * index;
+    card.translateY = -(HEIGH_CARD - transaleY) * index;
   }
 }
 
@@ -52,7 +51,7 @@ function open(cardView: View) {
 }
 
 function close(cardView: View, index: number) {
-  animateView(cardView, { translate: { x: 0, y: -(heightCard - transaleY) * index } })
+  animateView(cardView, { translate: { x: 0, y: -(HEIGH_CARD - transaleY) * index } })
 }
 
 function openOrGoToDetails(index: number) {
@@ -87,7 +86,7 @@ function openOrGoToDetails(index: number) {
               horizontalAlignment="right" @tap="toggleStatus"></Label>
           </GridLayout>
           <FlexboxLayout class="mt-2 h-full flex-col">
-            <Card v-for="(card, index) in dataCards" :key="index" :style="{ 'height': heightCard }" :data="card"
+            <Card v-for="(card, index) in dataCards" :key="index" :style="{ 'height': HEIGH_CARD }" :data="card"
               @loaded="loadedCard($event, index)" @tap="openOrGoToDetails(index)">
             </Card>
           </FlexboxLayout>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { View } from "@nativescript/core"
-import { transactions } from "~/data";
+import { transactions, HEIGH_CARD } from "~/data";
 import { ListItem, Transaction, Card as CardType } from "~/types";
 import Card from "./Card.vue"
 import { PropType } from "nativescript-vue";
@@ -33,7 +33,7 @@ function loadedItemList(args: any, index: number) {
   <Page actionBarHidden="true" class="bg-white rounded-t-3xl">
     <GridLayout rows="auto, *" class="pt-2" :style="{ background: card.bg.split(',1)').join(',0.2)') }">
       <StackLayout class="px-2 mt-2">
-        <Card height="200" :data="card"></Card>
+        <Card :height="HEIGH_CARD" :data="card"></Card>
       </StackLayout>
       <ContentView row="1" class="rounded-t-3xl mt-4">
         <ListView :items="transactions" separatorColor="transparent" class="bg-transparent">

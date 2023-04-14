@@ -1,4 +1,7 @@
+import { isAndroid } from "@nativescript/core"
 import { Card, Transaction } from "./types";
+
+export const HEIGH_CARD = isAndroid ? 220 : 200;
 
 export const dataCards: Card[] = [{
   bg: "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(245,144,2,1) 100%)",
