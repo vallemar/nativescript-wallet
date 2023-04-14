@@ -70,7 +70,7 @@ function animateAndroid(view: View, position: number) {
       view.android, androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_Y,
       Utils.layout.toDevicePixels(position)
     );
-    springAnim.getSpring().setStiffness(200)
+    springAnim.getSpring().setStiffness(150);
     springAnim.getSpring().setDampingRatio(0.6);
     springAnim.start();
   }
@@ -114,29 +114,31 @@ function openOrGoToDetails(index: number) {
 
 <template>
   <Frame>
-    <Page actionBarHidden="true" androidStatusBarBackground="transparent" statusbar>
+    <Page actionBarHidden="true" androidStatusBarBackground="transparent">
       <GridLayout>
-        <StackLayout class="p-2 h-full" verticalAlignment="top">
-          <GridLayout height="50">
+        <StackLayout class="h-full" verticalAlignment="top">
+          <GridLayout height="50" class="px-2">
             <Label text="Wallet" class="text-2xl font-bold text-black" horizontalAlignment="center"></Label>
             <Label ref="refShowBtn" text="close" style="font-size: 24;" height="45" width="45" rotate="90"
               class="m-icon-round bg-[#0666eb] rounded-full text-white text-center opacity-0" horizontalAlignment="right"
               @tap="toggleStatus"></Label>
           </GridLayout>
-          <StackLayout class="mt-2 h-full">
-            <FlexboxLayout v-for="(card, index) in dataCards" :key="index" :sharedTransitionTag="'card_' + index"
-              :style="{ 'background': card.bg, 'height': heightCard }" @loaded="loadedCard($event, index)"
-              @tap="openOrGoToDetails(index)" class="flex-col p-3 justify-between  mt-2" style="border-radius: 16">
-              <FlexboxLayout class="justify-between">
-                <Label text="Credit" class="text-xl font-bold text-white"></Label>
-                <Image :src="card.imgType" height="45"></Image>
+          <FlexboxLayout class="mt-2 h-full flex-col">
+            <GridLayout :style="{ 'height': heightCard }" class="p-2" v-for="(card, index) in dataCards" :key="index"
+              @loaded="loadedCard($event, index)" @tap="openOrGoToDetails(index)">
+              <ContentView width="100%" class="rounded-lg h-full" ios:boxShadow="0 0 3 3 rgba(0,0,0,.42)"></ContentView>
+              <FlexboxLayout :style="{ 'background': card.bg }" class="flex-col p-3 justify-between rounded-lg h-full">
+                <FlexboxLayout class="justify-between">
+                  <Label text="Credit" class="text-xl font-bold text-white"></Label>
+                  <Image :src="card.imgType" height="45"></Image>
+                </FlexboxLayout>
+                <FlexboxLayout class="flex-col">
+                  <Label text="Hewad" class="text-xl text-white"></Label>
+                  <Label text="**** **** 2222" class="text-xl text-white"></Label>
+                </FlexboxLayout>
               </FlexboxLayout>
-              <FlexboxLayout class="flex-col">
-                <Label text="Hewad" class="text-xl text-white"></Label>
-                <Label text="**** **** 2222" class="text-xl text-white"></Label>
-              </FlexboxLayout>
-            </FlexboxLayout>
-          </StackLayout>
+            </GridLayout>
+          </FlexboxLayout>
         </StackLayout>
         <FlexboxLayout ref="refAddBtn" verticalAlignment="bottom" class=" justify-center">
           <Label text="add" height="50" width="100"
