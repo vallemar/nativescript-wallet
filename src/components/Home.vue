@@ -79,8 +79,8 @@ function openOrGoToDetails(index: number) {
     <Page actionBarHidden="true" androidStatusBarBackground="transparent">
       <GridLayout>
         <StackLayout class="h-full" verticalAlignment="top">
-          <GridLayout height="50" class="">
-            <Label ref="refTextHeader" text="Wallet" class="text-2xl font-bold text-black"
+          <GridLayout height="50" class="android:mt-3">
+            <Label ref="refTextHeader" text="Wallet" class="text-3xl font-bold text-black"
               horizontalAlignment="center"></Label>
             <Label ref="refShowBtn" text="close" style="font-size: 24;" height="45" width="45" rotate="90"
               class="m-icon-round bg-[#0666eb] rounded-full text-white text-center opacity-0 mr-2"
