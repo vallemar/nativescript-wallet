@@ -4,12 +4,18 @@ import { Card, Transaction } from "./types";
 export const HEIGH_CARD = isAndroid ? 220 : 200;
 
 export const dataCards: Card[] = [{
+  name: "Justine",
+  number: "***** **** 0978",
   bg: "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(245,144,2,1) 100%)",
   imgType: "~/assets/master-card.png",
 }, {
+  name: "Jenna",
+  number: "***** **** 5782",
   bg: "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)",
   imgType: "~/assets/visa-card.png",
 }, {
+  name: "Jessica",
+  number: "***** **** 1093",
   bg: "linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)",
   imgType: "~/assets/master-card.png",
 }];

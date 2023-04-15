@@ -32,8 +32,8 @@ function loadedItemList(args: any, index: number) {
 <template>
   <Page actionBarHidden="true" class="bg-white rounded-t-3xl">
     <GridLayout rows="auto, *" class="pt-2" :style="{ background: card.bg.split(',1)').join(',0.2)') }">
-      <StackLayout class="px-2 mt-2">
-        <Card :height="HEIGH_CARD" :data="card"></Card>
+      <StackLayout class="mt-2">
+        <Card :sharedTransitionTag="`card_${index}`" :height="HEIGH_CARD" :data="card"></Card>
       </StackLayout>
       <ContentView row="1" class="rounded-t-3xl mt-4">
         <ListView :items="transactions" separatorColor="transparent" class="bg-transparent">

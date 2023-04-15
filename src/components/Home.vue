@@ -34,12 +34,14 @@ function toggleStatus() {
 
   if (isOpen.value) {
     viewCards.forEach((cardView, index) => index == 0 || close(cardView, index));
-    animateView(addBtn, { translate: { y: 0, x: 0 }, alpha: 1 });
+    animateView(addBtn, { translate: { y: 0, x: 0 }, alpha: 1, rotation: 0 });
+    animateView(addBtn.getViewById("icon-add"), { rotation: 0 });
     animateView(showBtn, { rotation: 90, alpha: 0 });
     animateView(textHeader, { translate: { x: 0, y: 0 } })
   } else {
     viewCards.forEach((cardView) => open(cardView));
     animateView(addBtn, { translate: { y: 50, x: 0 }, alpha: 0 });
+    animateView(addBtn.getViewById("icon-add"), { rotation: 180 });
     animateView(showBtn, { rotation: 0, alpha: 1 });
     animateView(textHeader, { translate: { x: -(Screen.mainScreen.widthDIPs / 2) + (textHeader.getActualSize().width / 2) + 10, y: 0 } });
   }
@@ -87,13 +89,13 @@ function openOrGoToDetails(index: number) {
           </GridLayout>
           <FlexboxLayout class="mt-2 h-full flex-col">
             <Card v-for="(card, index) in dataCards" :key="index" :style="{ 'height': HEIGH_CARD }" :data="card"
-              @loaded="loadedCard($event, index)" @tap="openOrGoToDetails(index)">
+              :sharedTransitionTag="`card_${index}`" @loaded="loadedCard($event, index)" @tap="openOrGoToDetails(index)">
             </Card>
           </FlexboxLayout>
         </StackLayout>
-        <FlexboxLayout ref="refAddBtn" verticalAlignment="bottom" class=" justify-center">
-          <Label text="add" height="50" width="100"
-            class="m-icon-round bg-[#0666eb] text-center text-white rounded-xl mb-4"></Label>
+        <FlexboxLayout ref="refAddBtn" verticalAlignment="bottom" class="justify-center items-center" height="100">
+          <Label id="icon-add" text="add" height="60" width="60"
+            class="m-icon-round bg-[#0666eb] text-center text-white rounded-xl"></Label>
         </FlexboxLayout>
       </GridLayout>
     </Page>

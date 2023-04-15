@@ -19,8 +19,8 @@ const props = defineProps({
                 <Image :src="props.data.imgType" height="45"></Image>
             </FlexboxLayout>
             <FlexboxLayout class="flex-col">
-                <Label text="Hewad" class="text-xl text-white"></Label>
-                <Label text="**** **** 2222" class="text-xl text-white"></Label>
+                <Label :text="data.name" class="text-xl text-white"></Label>
+                <Label :text="data.number" class="text-lg text-white"></Label>
             </FlexboxLayout>
         </FlexboxLayout>
     </GridLayout>

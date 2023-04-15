@@ -84,18 +84,19 @@ function animateAndroid(view: View, animation: AnimateOptions) {
 function animateIOS(view: View, animation: AnimateOptions) {
     Utils.ios.animateWithSpring({
         animations: () => {
+            const uiView = <UIView>view.ios;
             if (isNumber(animation.translate?.x) || isNumber(animation.translate?.y)) {
-                (<UIView>view.ios).transform = CGAffineTransformMakeTranslation(
+                uiView.transform = CGAffineTransformMakeTranslation(
                     getNumber(animation.translate?.x, view.translateX),
                     getNumber(animation.translate?.y, view.translateY)
                 );
-            }
+            }  
             if (animation.rotation || animation.rotation === 0) {
-                (<UIView>view.ios).transform = CGAffineTransformMakeRotation(animation.rotation);
+                uiView.transform = CGAffineTransformMakeRotation(animation.rotation * 3.1416/180);
             }
             if (animation.alpha || animation.alpha === 0) {
-                (<UIView>view.ios).layer.opacity = animation.alpha;
-            }
+                uiView.layer.opacity = animation.alpha;
+            }  
         }
     });
 }
