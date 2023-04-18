@@ -21,7 +21,7 @@ const viewCards: View[] = []
 
 function loadedCard(args: any, index: number) {
   const card: View = args.object;
-  if (!isOpen.value) {
+  if (!isOpen.value && viewCards.length < dataCards.length) {
     viewCards.push(card)
     card.translateY = -(HEIGH_CARD - transaleY) * index;
   }
@@ -77,7 +77,7 @@ function openOrGoToDetails(index: number) {
 
 <template>
   <Frame>
-    <Page actionBarHidden="true" androidStatusBarBackground="transparent">
+    <Page actionBarHidden="true" androidStatusBarBackground="transparent" class="bg-white">
       <GridLayout>
         <StackLayout class="h-full" verticalAlignment="top">
           <GridLayout height="50" class="android:mt-3">
