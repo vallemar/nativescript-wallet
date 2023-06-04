@@ -3,7 +3,6 @@ import {
   ref,
   $navigateTo,
   $showModal,
-  toRaw,
 } from "nativescript-vue";
 import { HEIGH_CARD, dataCards } from "@/data"
 import { isAndroid, PageTransition, SharedTransition, View, ModalTransition, Screen } from "@nativescript/core";
@@ -28,20 +27,21 @@ function loadedCard(args: any, index: number) {
 }
 
 function toggleStatus() {
-  const showBtn: View = toRaw(refShowBtn.value.nativeView);
-  const addBtn: View = toRaw(refAddBtn.value.nativeView);
-  const textHeader: View = toRaw(refTextHeader.value.nativeView);
+  const showBtn: View = refShowBtn.value.nativeView;
+  const addBtn: View = refAddBtn.value.nativeView;
+  const addWalletBtn: View = addBtn.getViewById("icon-add");
+  const textHeader: View = refTextHeader.value.nativeView;
 
   if (isOpen.value) {
     viewCards.forEach((cardView, index) => index == 0 || close(cardView, index));
     animateView(addBtn, { translate: { y: 0, x: 0 }, alpha: 1, rotation: 0 });
-    animateView(addBtn.getViewById("icon-add"), { rotation: 0 });
+    animateView(addWalletBtn, { rotation: 0 });
     animateView(showBtn, { rotation: 90, alpha: 0 });
     animateView(textHeader, { translate: { x: 0, y: 0 } })
   } else {
     viewCards.forEach((cardView) => open(cardView));
     animateView(addBtn, { translate: { y: 50, x: 0 }, alpha: 0 });
-    animateView(addBtn.getViewById("icon-add"), { rotation: 180 });
+    animateView(addWalletBtn, { rotation: 180 });
     animateView(showBtn, { rotation: 0, alpha: 1 });
     animateView(textHeader, { translate: { x: -(Screen.mainScreen.widthDIPs / 2) + (textHeader.getActualSize().width / 2) + 10, y: 0 } });
   }
